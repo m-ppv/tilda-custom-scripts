@@ -1,0 +1,91 @@
+<!--Студенты Академии поют а капелла-->
+<!-- блок youtube-grid-display html и скрипт для плитки из youtube-роликов, загружающихся по их ID из массива в начале скрипта. 
+Для работы требует блоки со стилями  youtube-grid-css-gt и youtube-grid-css-t223, а также блок с функциями для скрипта youtube-grid-functions
+
+В начале блока - фрагмент html, где котором в строчке <div id="XXX" class="t223 gt-container"></div>
+нужно проставить свое значение id вместо XXX. Это же значение id нужно вписать в строчках в начале скрипта
+displayVideoGrid(ytArr, "XXX");
+var rec = document.getElementById("XXX");
+в массиве ytArray в начале скрипта нужно через запятую вписать в кавычках youtube ID, качество обложки (sd по умолчанию, hq если не работает sd), заголовок и тип мероприятия. 
+Если какой-то элемент отсутствует, ставятся пустые кавычки -->
+
+<div class="r t-rec t-rec_pt_15 t-rec_pb_15" style="padding-top:15px;padding-bottom:15px;background-color:#cdd0d4; " data-record-type="251" data-bg-color="#cdd0d4" data-animationappear="off">
+<div id="a-kappella" class="t223 gt-container"></div>
+</div>
+
+<script>
+
+var ytArr = [
+["1tvHyHMtHCE","hq","Студенты Музыкальной Академии","Поздравляют Максима Дунаеского с#nbsp;днём рождения","и исполняют песню «Ветер перемен»"],
+["aq2Rgvtrgoc","sd","Поздравление","Димы Билана с#nbsp;днём рождения","от студентов Музыкальной академии"],
+["emWTE2oJnks","sd","Поздравление","Евгения Маргулиса с#nbsp;днём рождения ","от студентов Музыкальной академии"],
+["eNegcNnqeR0","sd","Поздравление","Гора Бабаханяна с#nbsp;днём рождения ","от студентов Музыкальной академии"],
+["bjXPnvqXbmw","sd","Поздравление","Александры Пахмутовой   с#nbsp;днём рождения","от студентов Музыкальной академии"],
+["IRcwiu5jQbc","sd","Поздравление","Сергея Трофимова с#nbsp;днём рождения","от студентов Музыкальной академии"],
+["ZPPQS97kBoM","sd","Поздравление","Лолиты Милявской с#nbsp;днём рождения","от студентов Музыкальной академии"],
+["B3jmLXEuJNg","sd","Поздравление","Эмина Агаларова с#nbsp;днём рождения","от студентов Музыкальной академии"],
+["ipjZMKdjCeQ","sd","Поздравление","Ларисы Долиной с#nbsp;днём рождения#nbsp;— «Погода в#nbsp;доме».","Исполняют студенты Музыкальной академии"],
+["-q2hOJPGcL8","sd","Поздравление","Ларисы Долиной с#nbsp;днём рождения#nbsp;— «Попурри».","Исполняют студенты Музыкальной академии"],
+["l22qDipPJxU","sd","Поздравление","Николая Баскова с#nbsp;днём рождения#nbsp;— «Я#nbsp;буду руки твои целовать».","Исполняют студенты Музыкальной академии"],
+["4UNgpNIvBUU","sd","Поздравление","Ларисы Долиной с#nbsp;днём рождения"," от#nbsp;Павла Плаксина и#nbsp;кафедры ЭДИ СГИК"],
+["qOeTaMOcPOg","sd","","Игорь Крутой#nbsp;— «ЛЮБОВЬ, ПОХОЖАЯ НА#nbsp;СОН».","Исполняют студенты Музыкальной академии"],
+["96MdSpP9_ek","sd","Поздравление","Александра Розенбаума с#nbsp;днем рождения#nbsp;— «ВАЛЬС БОСТОН».","Исполняют студенты Музыкальной академии"],
+["erhU1Fk-7YM","sd","","Анжелика Варум#nbsp;— «Городок».","Исполняют студенты Музыкальной академии"],
+["1s0VYLvvLLg","sd","","Сосо Павлиашвили#nbsp;— «НЕБО НА#nbsp;ЛАДОНИ».","Исполняют студенты Музыкальной академии"],
+["JmSiPxMufKM","sd","","Александр Панайотов#nbsp;— «ЧУВСТВОВАТЬ#nbsp;ТЕБЯ».","Исполняют студенты Музыкальной академии"],
+["fP1rZkRRaxE","sd","","Григорий Лепс#nbsp;— «Самый лучший день».","Исполняют студенты Музыкальной академии"],
+["idSSVR-1TNE","sd","","BURITO#nbsp;— «КАПКАН».","Исполняют студенты Музыкальной академии"],
+["MLKHhEHqTIA","sd","","КО ДНЮ ЗАЩИТЫ ДЕТЕЙ#nbsp;— «КРЫЛАТЫЕ КАЧЕЛИ».","Исполняют студенты Музыкальной академии"],
+["6LlVyD3hHyo","sd","","Ольга Кормухина#nbsp;— «ПАДАЮ В#nbsp;НЕБО».","Исполняют студенты Музыкальной академии"],
+["zh6rU5vzTHc","sd","","Александр Маршал#nbsp;— «ЛЕЙ ЛИВЕНЬ НЕ#nbsp;ЖАЛЕЙ».","Исполняют студенты Музыкальной академии"],
+];
+
+
+displayVideoGrid(ytArr, "a-kappella");
+t_onReady(function() {
+	var rec = document.getElementById("a-kappella");
+	if (!rec) return;
+	t_onFuncLoad('t223_initThumbnail', function() {
+		t223_initThumbnail(rec);
+	});
+	t_onFuncLoad('t223_setHeight', function() {
+		t223_setHeight(rec);
+	});
+	if (typeof jQuery !== 'undefined') {
+		$('.t223').bind('displayChanged', function() {
+			t223_setHeight(rec);
+		});
+		$('.t223').bind('displayChanged', function() {
+			t223_initThumbnail(rec);
+		});
+	} else {
+		var recWrapper = rec.querySelector('.t223');
+		if (recWrapper) {
+			recWrapper.addEventListener('displayChanged', function() {
+				t_onFuncLoad('t223_setHeight', function() {
+					t223_setHeight(rec);
+				});
+				t_onFuncLoad('t223_initThumbnail', function() {
+					t223_initThumbnail(rec);
+				});
+			});
+		}
+	}
+	t_onFuncLoad('t223_setHeight', function() {
+		window.addEventListener('scroll', t_throttle(function() {
+			t223_setHeight(rec);
+		}, 200));
+	});
+	t_onFuncLoad('t223_initThumbnail', function() {
+		window.addEventListener('scroll', t_throttle(function() {
+			t223_initThumbnail(rec);
+		}, 200));
+	});
+	window.addEventListener('resize', function() {
+		t_onFuncLoad('t223_initThumbnail', function() {
+			t223_initThumbnail(rec);
+		});
+	});
+});
+
+</script>
