@@ -1,0 +1,81 @@
+<!--Мастер-классы педагогов Академии-->
+<!-- блок youtube-grid-display html и скрипт для плитки из youtube-роликов, загружающихся по их ID из массива в начале скрипта. 
+Для работы требует блоки со стилями  youtube-grid-css-gt и youtube-grid-css-t223, а также блок с функциями для скрипта youtube-grid-functions
+
+В начале блока - фрагмент html, где котором в строчке <div id="XXX" class="t223 gt-container"></div>
+нужно проставить свое значение id вместо XXX. Это же значение id нужно вписать в строчках в начале скрипта
+displayVideoGrid(ytArr, "XXX");
+var rec = document.getElementById("XXX");
+в массиве ytArray в начале скрипта нужно через запятую вписать в кавычках youtube ID, качество обложки (sd по умолчанию, hq если не работает sd), заголовок и тип мероприятия. 
+Если какой-то элемент отсутствует, ставятся пустые кавычки -->
+
+<div class="r t-rec t-rec_pt_15 t-rec_pb_15" style="padding-top:15px;padding-bottom:15px;background-color:#cdd0d4; " data-record-type="251" data-bg-color="#cdd0d4" data-animationappear="off">
+<div id="master-class-teachers" class="t223 gt-container"></div>
+</div>
+
+<script>
+
+var ytArr = [
+//["J1Ff9VJDa3I","22.12.2022","Творчество Джорджа Бенсона","Научная конференция"],
+["vSBc8VmHRWg","sd","22.11.2022","Лариса Долина. Мастер-класс для#nbsp;музыкальных преподавателей и#nbsp;вокалистов","Мастер-класс. Самара"],
+["FC_W64FZyUA","sd","20.11.2022","Сергей Долженков «Специфика игры в#nbsp;оркестре»","Мастер-класс. Самара"],
+["yIgSjlCp3UA","sd","19.11.2022","Ксения Коробкова «Грамотное исполнение песен на#nbsp;английском языке»","Мастер-класс. Самара"],
+["nbNb4_dqoOU","sd","19.11.2022","Анна Юдис. «Культура русского языка в#nbsp;вокальной практике»","Мастер-класс. Самара"],
+["hRJ3305qxCM","sd","18.11.2022","Мария Осадчая «Артист. Путь победителя»","Мастер-класс. Самара"],
+["vVyPY93y33Y","sd","04.10.2022","Мария Осадчая: «Артист. Путь победителя»","Мастер-класс"],
+["OLBkaVzs3rY","sd","05.03.2022","Лаура Водяницкая и#nbsp;Антон Давидянц","Мастер-класс. Майкоп"],
+["5u4srhCt5q8","sd","05.02.2022","Лаура Водяницкая и#nbsp;Антон Давидянц","Мастер-класс. Новосибирск"],
+["gNb-wqRCvSY","sd","03-04.02.2022","Лаура Водяницкая и#nbsp;Антон Давидянц ","Мастер-класс. Дивеево"],
+["ygTxGI5WHyY","sd","03.03.2022"," Лаура Водяницкая и#nbsp;Антон Давидянц","Мастер-класс. Краснодар"],
+["iefalrgJ-sM","sd","28.01.2022"," Лаура Водяницкая и#nbsp;Антон Давидянц","Мастер-класс. Дивеево"],
+];
+
+
+displayVideoGrid(ytArr, "master-class-teachers");
+t_onReady(function() {
+	var rec = document.getElementById("master-class-teachers");
+	if (!rec) return;
+	t_onFuncLoad('t223_initThumbnail', function() {
+		t223_initThumbnail(rec);
+	});
+	t_onFuncLoad('t223_setHeight', function() {
+		t223_setHeight(rec);
+	});
+	if (typeof jQuery !== 'undefined') {
+		$('.t223').bind('displayChanged', function() {
+			t223_setHeight(rec);
+		});
+		$('.t223').bind('displayChanged', function() {
+			t223_initThumbnail(rec);
+		});
+	} else {
+		var recWrapper = rec.querySelector('.t223');
+		if (recWrapper) {
+			recWrapper.addEventListener('displayChanged', function() {
+				t_onFuncLoad('t223_setHeight', function() {
+					t223_setHeight(rec);
+				});
+				t_onFuncLoad('t223_initThumbnail', function() {
+					t223_initThumbnail(rec);
+				});
+			});
+		}
+	}
+	t_onFuncLoad('t223_setHeight', function() {
+		window.addEventListener('scroll', t_throttle(function() {
+			t223_setHeight(rec);
+		}, 200));
+	});
+	t_onFuncLoad('t223_initThumbnail', function() {
+		window.addEventListener('scroll', t_throttle(function() {
+			t223_initThumbnail(rec);
+		}, 200));
+	});
+	window.addEventListener('resize', function() {
+		t_onFuncLoad('t223_initThumbnail', function() {
+			t223_initThumbnail(rec);
+		});
+	});
+});
+
+</script>
