@@ -26,7 +26,6 @@ function displayVideoGrid(textArray, gridId) {
         
         var ytText = textArray[i];
         
-//        var t223Container = document.createElement('div');
         var t223Col = document.createElement('div');
         var t223VideoThumbnail = document.createElement('div');
         var tButton = document.createElement('button');
@@ -39,7 +38,6 @@ function displayVideoGrid(textArray, gridId) {
         var gtTitle = document.createElement('div');
         var gtType = document.createElement('div');
         
-//        t223Container.setAttribute('class', 't223 gt-container');
         t223Col.setAttribute('class', 't223-col gt-col gt-col_6');
         t223VideoThumbnail.setAttribute('class', 't223__video-thumbnail');
         t223VideoThumbnail.setAttribute('data-youtube-id', ytText[0]);
