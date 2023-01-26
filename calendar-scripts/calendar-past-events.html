@@ -1,0 +1,79 @@
+<script>
+
+    //past events
+    
+    (function () {
+    
+        var app = "https://script.google.com/macros/s/AKfycby5wIU62Fm_FogxKaIulUoCeeVsiYnfrsDwR1uxr5UQoAoZq120tGfVsNvYG6MJJyWQ/exec";
+        var output = '';
+        var xhr = new XMLHttpRequest();
+    
+        var card_month = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
+        var head_month = ["январь", "февраль", "март", "апрель", "май", "июнь", "июль", "август", "сентябрь", "октябрь", "ноябрь", "декабрь"];
+        var month_num = '';
+        
+    
+        xhr.open('GET', app);
+        xhr.onreadystatechange = function() {
+         if (xhr.readyState !== 4) return;
+    
+         if (xhr.status == 200) {
+            try {
+                var r = JSON.parse(xhr.responseText),
+                   result = r["calendar"];
+                for (var i = 0; i < result.length; i++){
+                      var obj = r["calendar"][i];
+                      
+                      var s_date = obj[0].split('-'); //в массив s_date (start date) записываются год, месяц и день начала мероприятия
+                      if (obj[2] != '')  { //если есть вторая дата
+                          var e_date = obj[2].split('-'); //в массив e_date (end date) записываются год, месяц и день конца мероприятия
+                      }
+                      if (obj[1] != '') {
+                          var s_time = obj[1]; //в переменную s_time (start time) записываются время начала мероприятия
+                      }
+                      if (obj[3] != '') {
+                          var e_time = obj[3]; //в переменную e_time (end time) записываются время конца мероприятия
+                      }
+    
+    
+    
+                      if (s_date[1] != month_num) { //если номер месяца не совпадает с номером месяца предыдущего события, добавляем название месяца и года перед карточкой
+                          month_num = s_date[1];
+                          output += '<div class="h_month">'+ head_month[s_date[1]-1] +' '+ s_date[0] + '</div>';
+                      }
+                      output += '<div class="c_card">';
+                      output += '<div class="c_about">' + obj[6] + '</div>'; //описание - идет первым, потому что у нее position relative
+                      if ((obj[2] == '') && (obj[2] != obj[0])) {    
+                        output += '<div class="c_day">' + s_date[2] + '</div>';  //если нет конечной дат или она совпадает с начальной (событие на один день) пишем одно число месяца
+                      } else output += '<div class="c_days">' + s_date[2] + ' &ndash; ' + e_date[2] + '</div>'; //если есть вторая дата, пишем обе через тире
+                      output += '<div class="c_month">' + card_month[s_date[1]-1]  + '</div>'; // месяц, диапазон месяцев, если случится, пока не придумал как писать
+                      if (obj[3] == '') {
+                          output += '<div class="c_time">' + obj[1] + '</div>';
+                      }
+                      else output += '<div class="c_time">' + obj[1] + ' &ndash; ' + obj[3] + '</div>'
+                      output += '<div class="c_type">' + obj[5] + '</div>';
+                      output += '<div class="c_placetag">Место</div>';
+                      output += '<div class="c_place">' + obj[7] + '</div>';
+                      if (obj[8] != '') {
+                          output += '<div class="c_link"><a target="_blank" href="' + obj[8] + '">Описание</a></div>';
+                      }
+                      /*
+                      if (obj[9] != '') {
+                      output += '<div class="c_ticket"><a target="_blank" href="' + obj[10] +'">' + obj[9] + '</a></div>';
+                      }
+                      */
+                      output += '</div>';
+                }
+            } catch(e)  {console.error(e, e.stack);}
+         } 
+         
+       document.getElementById('past_info').innerHTML = output;
+    
+       }
+       xhr.send()
+    })()
+    
+    </script>
+    
+    <div id="past_info"></div>
+    

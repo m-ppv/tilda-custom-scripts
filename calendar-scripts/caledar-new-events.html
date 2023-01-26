@@ -1,0 +1,147 @@
+<script>
+
+    (function () {
+    
+        var app = "https://script.google.com/macros/s/AKfycbxGoRRJ6RUSgE4P7t6XCRvIODD_dLjCxlarg09M9hbhsBCqteYHbkqPZ-s_gwh8E3dh/exec";
+        var output = '';
+        var xhr = new XMLHttpRequest();
+    
+        var card_month = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
+        var head_month = ["январь", "февраль", "март", "апрель", "май", "июнь", "июль", "август", "сентябрь", "октябрь", "ноябрь", "декабрь"];
+        var month_num = '';
+        
+        function isotoics(d) { //функция преобразует строку даты в ISO формате в строку даты-времени в ical/google-формате 
+            var idate = d.toISOString();
+            idate = idate.replaceAll('-','');
+            idate = idate.replaceAll(':','');
+            idate = idate.replace('.000Z', 'Z');
+            return idate;
+        }
+        
+        function filterencode(str) {                // избавляет строку от тегов html и кодирует ее в url-формате
+            str = str.replaceAll('<br>', ' ');
+           str = str.replaceAll('<br/>', ' ');
+           str = str.replaceAll('<br />', ' ');
+    //        str = str.replace(/\<.*?\>, ' '); 
+            str = str.replaceAll('&nbsp;', ' ');
+            str = str.replaceAll('  ', ' ');
+            str = encodeURI(str);
+            return str;
+        }    
+            
+        xhr.open('GET', app);
+        xhr.onreadystatechange = function() {
+         if (xhr.readyState !== 4) return;
+    
+         if (xhr.status == 200) {
+            try {
+                var r = JSON.parse(xhr.responseText),
+                   result = r["calendar"];
+                for (var i = 0; i < result.length; i++){
+                      var obj = r["calendar"][i];
+                      var ics = '';      //строка для ссылки-файла в формате ical
+                      var googl = '';    //строка для ссылки в формате google
+                      var dtstart = '';  // дата-время начала в формате date
+                      var dtend = '';    // дата-время окончания в формате Date
+                      var ddtstart = ''; // дата или дата-время начала в формате ссылки ical/google (совпадают)
+                      var ddtend = '';   // дата или дата-время начала в формате ссылки ical/google (совпадают)
+                      var titl = '';     // название события, вставляемое в ссылку
+                      var descr = '';    // описание события, вставляемое в ссылку
+                      var loc = '';      // место события, вставляемое в ссылку
+                      var s_date = obj[0].split('-'); //в массив s_date (start date) записываются год, месяц и день начала мероприятия
+                      if (obj[2] != '')  { //если есть вторая дата
+                          var e_date = obj[2].split('-'); //в массив e_date (end date) записываются год, месяц и день конца мероприятия
+                      }
+                      if (obj[1] != '') {
+                          var s_time = obj[1]; //в переменную s_time (start time) записываются время начала мероприятия
+                      }
+                      if (obj[3] != '') {
+                          var e_time = obj[3]; //в переменную e_time (end time) записываются время конца мероприятия
+                      }
+                      if (obj[4] != '') {
+                          var corr_time = obj[4]; //коррекция времени по отношению к МСК
+                      }
+                      
+                      titl = 'muscult:%20' + filterencode(obj[5]);  //формируем название, описание и место для календарной ссылки 
+                      descr = filterencode(obj[6]);
+                      loc = filterencode(obj[7]);
+                      
+                      if (obj[2] != '') { //есть вторая дата, может сопадать с первой (событие на один день)
+                          //формируется строчка календаря для диапазона дат
+                          ddtstart = s_date[0] + s_date[1] + s_date[2];
+                          ddtend = e_date[0] + e_date[1] + (e_date[2]*1+1);
+                      }
+    
+                      if (obj[1] != '') {
+                          //формируется строчка календаря для диапазона времени, дата-время пишется как  20221109T160000Z
+                          dtstart = new Date(obj[0] + 'T' + obj[1] + '+03:00');   //+03:00 потому что время МСК
+                          
+                          if (obj[3] != '') { //если указано время окончания мероприятия
+                              if (obj[2] !='') { // если дата окончания не пустая
+                                  dtend = new Date(obj[2] + 'T' + obj[3] + '+03:00');
+                              } else { // если дата пустая, то дата окончания равна дате начала
+                                  dtend = new Date(obj[0] + 'T' + obj[3] + '+03:00');  
+                              }
+                              
+                          } else {   //если  время окончания мероприятия не указано
+                              dtend = new Date(obj[0] + 'T' + obj[1] + '+03:00');
+                              dtend.setHours(dtend.getHours() + 2); //стандартная продолжительность мероприятия 2 часа
+                          }
+                          if (obj[4] != '') {   //поправка на местное время по отношению к МСК
+                              dtstart.setHours(dtstart.getHours() - obj[4]);
+                              dtend.setHours(dtend.getHours() - obj[4]);
+                          }
+                          ddtstart = isotoics(dtstart);
+                          ddtend = isotoics(dtend);
+                      }
+                      
+                      if (ddtstart != '') { // если выше сформирована дата для ссылки, формируем сами ссылки для ics и google
+                          ics =  'data:text/calendar;charset=utf8,BEGIN:VCALENDAR%0AVERSION:2.0%0ABEGIN:VEVENT%0A';
+                          ics += 'DTSTART:' + ddtstart + '%0ADTEND:' + ddtend + '%0ASUMMARY:'+  titl +  '%0ADESCRIPTION:' + descr +'%0A';
+                          ics += 'LOCATION:' + loc.replaceAll(',', '\\,') + '%0AEND:VEVENT%0AEND:VCALENDAR%0A';  //в location нужно менять зпт на \зпт, иначе iphone проглатывает зпт и дальше ничего не видит
+                          googl =  'https://calendar.google.com/calendar/render?action=TEMPLATE&dates=' + ddtstart + '%2F' + ddtend;
+                          googl += '&details=' + descr +'&location=' + loc + '&text=' + titl;
+    
+                      } 
+    
+                      if (s_date[1] != month_num) { //если номер месяца не совпадает с номером месяца предыдущего события, добавляем название месяца и года перед карточкой
+                          month_num = s_date[1];
+                          output += '<div class="h_month">'+ head_month[s_date[1]-1] +' '+ s_date[0] + '</div>';
+                      }
+                      output += '<div id="' + obj[0] + 'T' + obj[1] + '" class="c_card">';
+                      output += '<div class="c_about">' + obj[6] + '</div>'; //описание - идет первым, потому что у нее position relative
+                      if ((obj[2] == '') && (obj[2] != obj[0])) {    
+                        output += '<div class="c_day">' + s_date[2] + '</div>';  //если нет конечной дат или она совпадает с начальной (событие на один день) пишем одно число месяца
+                      } else output += '<div class="c_days">' + s_date[2] + ' &ndash; ' + e_date[2] + '</div>'; //если есть вторая дата, пишем обе через тире
+                      output += '<div class="c_month">' + card_month[s_date[1]-1]  + '</div>'; // месяц, диапазон месяцев, если случится, пока не придумал как писать
+                      if (obj[3] == '') {
+                          output += '<div class="c_time">' + obj[1] + '</div>';
+                      }
+                      else output += '<div class="c_time">' + obj[1] + ' &ndash; ' + obj[3] + '</div>'
+                      output += '<div class="c_type">' + obj[5] + '</div>';
+                      output += '<div class="c_placetag">Место</div>';
+                      output += '<div class="c_place">' + obj[7] + '</div>';
+                      if (ics != '') { // если есть ссылка
+                         output += '<div class="c_ics"><a href="' + ics +'">В КАЛЕНДАРЬ: (.ICS)</a><a target="_blank" href="' + googl +'">/GOOGLE</a></div>';
+                      }
+                      if (obj[8] != '') {
+                          output += '<div class="c_link"><a target="_blank" href="' + obj[8] + '">Описание</a></div>';
+                      }
+                      if (obj[9] != '') {
+                      output += '<div class="c_ticket"><a target="_blank" href="' + obj[10] +'">' + obj[9] + '</a></div>';
+                      }
+                      output += '</div>';
+                }
+            } catch(e)  {/*console.error(e, e.stack);*/}
+         } 
+         
+       document.getElementById('info').innerHTML = output;
+    
+       }
+       xhr.send()
+    })()
+    
+    </script>
+    
+    <div id="info"></div>
+    
