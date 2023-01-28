@@ -160,7 +160,7 @@
                       c_card.appendChild(c_place);
 
                       
-                      if (ics != '') { // если есть ссылка
+                      if (ics != '') { // если есть календарная ссылка
                           var c_ics = document.createElement('div');
                           var a_ics = document.createElement('a');
                           var a_icsText = document.createTextNode('В КАЛЕНДАРЬ: (.ICS)');
@@ -180,7 +180,7 @@
 
                       }
 
-                      if (obj[8] != '') {
+                      if (obj[8] != '') { // если есть ссылка на описание мероприятия
                           var c_link = document.createElement('div');
                           var a_link = document.createElement('a');
                           var a_linkText = document.createTextNode('Описание');
@@ -194,7 +194,7 @@
                           c_card.appendChild(c_link);
                       }
 
-                      if (obj[9] != '') {
+                      if (obj[9] != '') { //если есть указание на регистрацию или покупку билета
                           var c_ticket = document.createElement('div');
                           var a_ticket = document.createElement('a');
                           var a_ticketText = document.createTextNode(obj[9]);
@@ -209,7 +209,7 @@
                       }
 
                 }
-            } catch(e)  {console.error(e, e.stack);}
+            } catch(e)  {/*console.error(e, e.stack);*/}
          } 
          
     
