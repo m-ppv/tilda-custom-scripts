@@ -156,7 +156,7 @@
 
                       var c_place = document.createElement('div');
                       c_place.setAttribute('class', 'c_place');
-                      c_place.textContent = obj[7];
+                      c_place.textContent = obj[7].replace(/&nbsp;|#nbsp;/gi, '\u00A0');  // неразрывный пробел;
                       c_card.appendChild(c_place);
 
                       
