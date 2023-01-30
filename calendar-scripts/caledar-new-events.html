@@ -1,7 +1,7 @@
 <div id="calendar-new-events"></div>
 
 <script>
-'use strict'
+'use strict';
     
 function isotoics(d) { //функция преобразует строку даты в ISO формате в строку даты-времени в ical/google-формате 
     let idate = d.toISOString();
@@ -18,10 +18,10 @@ function filterencode(str) { // избавляет строку от тегов 
     return str;
 }
 
-const APP = "https://script.google.com/macros/s/AKfycbxGoRRJ6RUSgE4P7t6XCRvIODD_dLjCxlarg09M9hbhsBCqteYHbkqPZ-s_gwh8E3dh/exec";
-let output = document.getElementById('calendar-new-events');
 
 (async () => {
+    const APP = "https://script.google.com/macros/s/AKfycbxGoRRJ6RUSgE4P7t6XCRvIODD_dLjCxlarg09M9hbhsBCqteYHbkqPZ-s_gwh8E3dh/exec";
+    let output = document.getElementById('calendar-new-events');
     let xhr = await fetch(APP);
     if (xhr.ok) {
         let r = await xhr.json(); // читаем ответ в формате JSON
