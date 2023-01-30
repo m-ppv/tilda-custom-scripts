@@ -1,6 +1,7 @@
-<div id="info"></div>
+<div id="calendar-new-events"></div>
 
 <script>
+'use strict'
     
 function isotoics(d) { //функция преобразует строку даты в ISO формате в строку даты-времени в ical/google-формате 
     let idate = d.toISOString();
@@ -17,17 +18,17 @@ function filterencode(str) { // избавляет строку от тегов 
     return str;
 }
 
-const app = "https://script.google.com/macros/s/AKfycbxGoRRJ6RUSgE4P7t6XCRvIODD_dLjCxlarg09M9hbhsBCqteYHbkqPZ-s_gwh8E3dh/exec";
-let output = document.getElementById('info');
+const APP = "https://script.google.com/macros/s/AKfycbxGoRRJ6RUSgE4P7t6XCRvIODD_dLjCxlarg09M9hbhsBCqteYHbkqPZ-s_gwh8E3dh/exec";
+let output = document.getElementById('calendar-new-events');
 
 (async () => {
-    let xhr = await fetch(app);
+    let xhr = await fetch(APP);
     if (xhr.ok) {
         let r = await xhr.json(); // читаем ответ в формате JSON
-        const card_month = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
-        const head_month = ["январь", "февраль", "март", "апрель", "май", "июнь", "июль", "август", "сентябрь", "октябрь", "ноябрь", "декабрь"];
+        const CARD_MONTH = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
+        const HEAD_MONTH = ["январь", "февраль", "март", "апрель", "май", "июнь", "июль", "август", "сентябрь", "октябрь", "ноябрь", "декабрь"];
         let month_num;
-            result = r.calendar;
+        const result = r.calendar;
         for (let i = 0; i < result.length; i++) {
             let obj = r.calendar[i];
             let ics, googl; //строки для ссылки-файла в формате ical и google
@@ -90,7 +91,7 @@ let output = document.getElementById('info');
                 month_num = s_date[1];
                 let h_month = document.createElement('div');
                 h_month.setAttribute('class', 'h_month');
-                h_month.textContent = head_month[s_date[1] - 1] + ' ' + s_date[0];
+                h_month.textContent = HEAD_MONTH[s_date[1] - 1] + ' ' + s_date[0];
                 output.appendChild(h_month);
             }
             let c_card = document.createElement('div');
@@ -112,7 +113,7 @@ let output = document.getElementById('info');
             c_card.appendChild(c_day);
             let c_month = document.createElement('div');
             c_month.setAttribute('class', 'c_month');
-            c_month.textContent = card_month[s_date[1] - 1]; // название месяца из массива, 1 вычитается потому, что массив начинается с 0. Диапазон месяцев пока не придумал как писать
+            c_month.textContent = CARD_MONTH[s_date[1] - 1]; // название месяца из массива, 1 вычитается потому, что массив начинается с 0. Диапазон месяцев пока не придумал как писать
             c_card.appendChild(c_month);
             let c_time = document.createElement('div');
             c_time.setAttribute('class', 'c_time');
