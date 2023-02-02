@@ -2,552 +2,580 @@
 
 <style>
 
-    /* 1. CSS календарной карточки c_card для экранов большого разрешения от 1200 */
+/* 1. CSS календарной карточки c_card для экранов большого разрешения от 1200 */
+
+.h_month  {/*header month*/
+    position: relative;
+    width: 1050px;
+    margin: 0px auto -18px;
+    font-family: 'GothamPro';
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-align: left;
+    color: #200067;
+}
+
+.c_card {
+    /*box-sizing: border-box; */
+    position: relative;
+    display: block;
+    margin: 30px auto;
+    overflow: visible;
+    box-shadow: 0px 0px 10px 4px rgba(255, 255, 255, 0.7);
+    width: 1050px;
+    height:auto;
+    min-height: 260px;
+    background: #FFFFFF;
+    font-family: 'GothamPro';
+    text-align: left;
+    color: #200067;
+    /*color: red;*/
+}
+
+.c_card a {
+    border-bottom: 1px solid #200067;    
+}
+
+.c_card:hover {
+ box-shadow: 0px 0px 15px 7px rgba(255, 255, 255, 0.7);
+ transition: all 0.2s ease-in;
+}
+
+.c_about {
+    position: relative;
+    padding-top: 85px;
+    padding-bottom: 35px;
+    width: 37%;
+    left: 35.5%;
+    font-size: 20px;
+    font-weight: 200;
+    line-height: 1.4;
+    text-transform: uppercase;
+}
+
+.c_day {
+    position: absolute;
+    width: 240px;
+    height: 80px;
+    left: 3%;
+    top: 17px;
+    font-weight: 100;
+    font-size: 70px;
+    text-align: center;
+}
+
+.c_days {
+    position: absolute;
+    width: 240px;
+    height: 80px;
+    left: 3%;
+    top: 17px;
+    font-weight: 100;
+    font-size: 70px;
+    text-align: center;
+}
+
+.c_month {
+    position: absolute;
+    padding: 9px 8px;
+    /*box-sizing: border-box;*/
+    border: 1px solid #200067;
+    width: 150px;
+    left: 6.5%;
+    top: 108px;
+    font-weight: 500;
+    font-size: 18px;
+    letter-spacing: 5px;
+    text-align: center;
+    vertical-align: middle;
+    text-transform: uppercase;
+}
     
-    .h_month  {/*header month*/
-        position: relative;
-        width: 1050px;
-        margin: 0px auto -18px;
-        font-family: 'GothamPro';
-        font-size: 12px;
-        font-weight: 500;
-        text-transform: uppercase;
-        text-align: left;
-        color: #200067;
+.c_time {
+    position: absolute;
+    width: 164px;
+    left: 6.5%;
+    top: 170px;
+    font-size: 20px;
+    font-weight: 200;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+.c_type {
+    position: absolute;
+    width: 40%;
+    left: 35.5%;
+    top: 40px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+.c_placetag {
+    position: absolute;
+    left: 78.8%;
+    top: 40px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+.c_place {
+    position: absolute;
+    width: 127px;
+    left: 78.8%;
+    top: 96px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: -0.3px;
+    text-transform: uppercase;
+    line-height: 1.5;
+}
+
+.c_ticket {
+    position: absolute;
+    padding: 12px 27px;
+    background: #cdd0d4;
+    left: 78.8%;
+    bottom: 26px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.c_ticket a {
+    color: #ffffff!important;
+    border-bottom: none;    
+}
+
+.c_ticket:hover {
+    background: #200067;
+    transition: all 0.2s ease-in;
+
+}
+
+.c_link {
+    position: absolute;
+    width: 150px;
+    left: 35.5%;
+    bottom: 37px;
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+
+.c_ics {
+    position: absolute;
+    width: 170px;
+    left: 6.7%;
+    bottom: 37px;
+    font-size: 10px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.c_ics a {
+    color: #cdd0d4!important;
+    border-bottom: none;    
+}
+
+.c_ics a:hover {
+    color: #200067!important;
+    transition: all 0.2s ease-in;
+}
+
+#load-more {
+    display:block;
+    width: fit-content;
+    cursor: pointer;
+    margin: 20px auto;
+    transition: all 200ms ease-in-out;
+    font-size: 14px;
+    line-height: 30px;
+    padding: 10px 40px;
+    color: #200067;
+    border: 1px solid #200067;
+    font-family: GothamPro;
+    font-weight: 500;
+    text-align: center;
+    text-transform: uppercase;
+    background-color: transparent;
+}
+
+#load-more:not([disabled]):hover {
+  box-shadow: 0 1px 9px rgba(0, 0, 0, 0.2);
+  color: #cdd0d4;
+  background-color: #200067;
+}
+
+#load-more[disabled] {
+    display: none !important;
+  /*background-color: #eaeaea !important; */
+}
+
+/* 2. CSS календарной карточки c_card для экранов 960 - 1200  */ 
+
+@media (max-width: 1200px) {
+
+     .h_month  {
+        width: 840px;
+        /*margin-left: 50px;*/
     }
-    
+
+ 
     .c_card {
-        /*box-sizing: border-box; */
-        position: relative;
-        display: block;
-        margin: 30px auto;
-        overflow: visible;
-        box-shadow: 0px 0px 10px 4px rgba(255, 255, 255, 0.7);
-        width: 1050px;
-        height:auto;
-        min-height: 260px;
-        background: #FFFFFF;
-        font-family: 'GothamPro';
-        text-align: left;
-        color: #200067;
-        /*color: red;*/
+        width: 840px;
     }
-    
-    .c_card a {
-        border-bottom: 1px solid #200067;    
-    }
-    
-    .c_card:hover {
-     box-shadow: 0px 0px 15px 7px rgba(255, 255, 255, 0.7);
-     transition: all 0.2s ease-in;
-    }
-    
+
     .c_about {
-        position: relative;
-        padding-top: 85px;
-        padding-bottom: 35px;
-        width: 37%;
-        left: 35.5%;
-        font-size: 20px;
-        font-weight: 200;
-        line-height: 1.4;
-        text-transform: uppercase;
+        width: 45%;
+        left: 29%;
     }
     
     .c_day {
-        position: absolute;
-        width: 240px;
-        height: 80px;
-        left: 3%;
-        top: 17px;
-        font-weight: 100;
-        font-size: 70px;
-        text-align: center;
+        left: 0%;
+        top: 18px;
+        font-size: 58px;
+    }
+
+    .c_days {
+        left: 0%;
+        top: 18px;
+        font-size: 58px;
+    }
+    
+    .c_month {
+        padding: 5px 8px;
+        left: 4%;
+        top: 92px;
+        letter-spacing: 4px;
+    }
+        
+    .c_time {
+        left: 4%;
+        font-size: 18px;
+    }
+    
+    .c_type {
+        width: 45%;
+        left: 29%;
+    }
+    
+    .c_ticket {
+        padding: 12px 20px;
+    }
+    
+    .c_link {
+        left: 29%;
+    }
+    
+    .c_ics {
+        left: 5%;
+    }
+    
+}
+
+
+/* 3. CSS календарной карточки c_card для экранов 640 - 960  */
+
+@media (max-width: 960px) {
+
+    .h_month  {
+        width: 530px;
+        /*margin-left: 35px;*/
+    }
+
+    .c_card {
+        width: 530px;
+        min-height: 240px;
+    }
+    
+    .c_about {
+        padding-top: 54px;
+        padding-bottom: 90px;
+        width: 55%;
+        left: 40%;
+        font-size: 16px;
+    }
+    
+    .c_day {
+        left: 1%;
+        top: 8px;
+        width: 200px;
+        font-size: 50px;
     }
     
     .c_days {
-        position: absolute;
-        width: 240px;
-        height: 80px;
-        left: 3%;
-        top: 17px;
-        font-weight: 100;
-        font-size: 70px;
+        left: 1%;
+        top: 8px;
+        width: 200px;
+        font-size: 50px;
+    }
+
+    .c_month {
+        padding: 5px 7px;
+        left: 4%;
+        top: 72px;
+        font-size: 16px;
+        letter-spacing: 4px;
+    }
+        
+    .c_time {
+        left: 4%;
+        font-size: 16px;
+        top: 112px;
+    }
+    
+    .c_type {
+        width: 60%;
+        left: 40%;
+        top: 23px;
+        font-size: 9px;
+    }
+    
+    .c_placetag {
+        display: none;
+    }
+    
+    .c_place {
+        top: unset;
+        bottom: 58px;
+        left: 40%;
+        width: 55%;
+        font-size: 9px;
+    }
+    .c_link {
+        top: unset;
+        bottom: 35px;
+        left: 40%;
+        font-size: 9px;
+    }
+    
+    .c_ics {
+        left: 70.4%;
+        width: 145px;
+        bottom: 32px;
+        font-size: 9px;
+        
+    }
+    
+    .c_ticket {
+        left: 5.7%;
+        bottom: 25px;
+        padding: 9px 24px;
+        font-size: 10px;
+    }
+    
+}
+
+/* 4. CSS календарной карточки c_card для экранов 480 - 640  */
+
+
+@media (max-width: 640px) {
+
+    .h_month  {
+        width: 400px;
+        /*margin-left: 25px;*/
+    }
+
+    .c_card {
+        width: 400px;
+        min-height: 210px;
+    }
+    
+    .c_about {
+        display: block;
+        padding-top: 45px;
+        padding-bottom: 76px;
+        width: 55%;
+        left: 40%;
+        font-size: 14px;
+    }
+    
+    .c_day {
+        left: 0%;
+        top: 8px;
+        width: 150px;
+        font-size: 40px;
+    }
+    
+    .c_days {
+        left: 0%;
+        top: 8px;
+        width: 150px;
+        font-size: 40px;
+    }
+    
+    .c_month {
+        padding: 5px 4px;
+        width: 100px;
+        left: 5%;
+        top: 62px;
+        font-size: 12px;
+        letter-spacing: 4px;
+    }
+        
+    .c_time {
+        left: 0%;
+        width: 151px;
+        font-size: 12px;
+        top: 106px;
+    }
+    
+    .c_type {
+        width: 60%;
+        left: 40%;
+        top: 23px;
+        font-size: 8px;
+    }
+    
+    .c_placetag {
+        display: none;
+    }
+    
+    .c_place {
+        top: unset;
+        bottom: 55px;
+        width: 148px;
+        left: 0%;
+        text-align: center;
+        font-size: 8px;
+    }
+    
+    .c_link {
+        top: unset;
+        bottom: 27px;
+        left: 40%;
+        font-size: 8px;
+    }
+    
+    .c_ics {
+        left: 64.5%;
+        width: 132px;
+        bottom: 27px;
+        font-size: 8px;
+        
+    }
+    
+    .c_ticket {
+        left: 5%;
+        bottom: 18px;
+        padding: 9px 23px;
+        font-size: 8px;
+    }
+    
+}
+
+
+/* 5. CSS календарной карточки c_card для экранов до 480 */
+
+@media (max-width: 480px) {
+    
+    .h_month  {
+        width: 256px;
+        /*margin-left: 40px auto;*/
+    }
+
+    .c_card {
+        width: 256px;
+        /*margin: 40px auto;*/
+        min-height: 0px;
+    }    
+
+    .c_about {
+        width: 216px;
+        padding-top: 97px;
+        padding-bottom: 101px;
+        left: 20px;
+        font-size: 12px;
+        /* font-weight: 500; */
+        line-height: unset;
+    }
+   
+    .c_day {
+        width: 50px;
+        left: 20px;
+        top: 29px;
+        font-size: 44px;
+        text-align: right;
+    }
+    
+    .c_days {
+        width: 50px;
+        left: 20px;
+        top: 29px;
+        font-size: 26px;
+        line-height: 30px;
         text-align: center;
     }
     
     .c_month {
-        position: absolute;
-        padding: 9px 8px;
-        /*box-sizing: border-box;*/
-        border: 1px solid #200067;
-        width: 150px;
-        left: 6.5%;
-        top: 108px;
-        font-weight: 500;
-        font-size: 18px;
-        letter-spacing: 5px;
-        text-align: center;
-        vertical-align: middle;
-        text-transform: uppercase;
+        border: none;
+        padding: 0px;
+        left: 96px;
+        top: 45px;
+        font-size: 14px;
+        text-align: left;
     }
-        
+    
     .c_time {
-        position: absolute;
-        width: 164px;
-        left: 6.5%;
-        top: 170px;
-        font-size: 20px;
-        font-weight: 200;
-        letter-spacing: 2px;
-        text-align: center;
+        left: 96px;
+        top: 62px;
+        font-size: 12px;
+        text-align: left;
     }
-    
+
     .c_type {
-        position: absolute;
-        width: 40%;
-        left: 35.5%;
-        top: 40px;
-        font-size: 12px;
-        font-weight: 500;
-        letter-spacing: 4px;
-        text-transform: uppercase;
+        left: 20px;
+        top: 20px;
+        width: unset;
+        font-size: 8px;
     }
     
-    .c_placetag {
-        position: absolute;
-        left: 78.8%;
-        top: 40px;
-        font-size: 12px;
-        font-weight: 500;
-        letter-spacing: 4px;
-        text-transform: uppercase;
+    .c_placetag  {
+        display: none;
     }
     
     .c_place {
-        position: absolute;
-        width: 127px;
-        left: 78.8%;
-        top: 96px;
-        font-size: 12px;
-        font-weight: 500;
-        letter-spacing: -0.3px;
-        text-transform: uppercase;
-        line-height: 1.5;
+        left: 96px;
+        top: unset;
+        height: 24px;
+        bottom: 57px;
+        font-size: 8px;
+        text-align: left;
     }
     
+
     .c_ticket {
-        position: absolute;
-        padding: 12px 27px;
-        background: #cdd0d4;
-        left: 78.8%;
-        bottom: 26px;
-        font-size: 12px;
-        font-weight: 500;
-        text-transform: uppercase;
+        left: 96px;
+        bottom: 21px;
+        padding: 9px 32px;
+        font-size: 8px;
     }
-    
-    .c_ticket a {
-        color: #ffffff!important;
-        border-bottom: none;    
-    }
-    
-    .c_ticket:hover {
-        background: #200067;
-        transition: all 0.2s ease-in;
-    
-    }
-    
-    .c_link {
-        position: absolute;
-        width: 150px;
-        left: 35.5%;
-        bottom: 37px;
-        font-size: 10px;
-        font-weight: 500;
-        text-transform: uppercase;
-    }
-    
-    
+
+   
+   .c_link {
+        top: unset;
+        bottom: 71px;
+        left: 20px;
+        font-size: 8px;
+   }
+   
     .c_ics {
-        position: absolute;
-        width: 170px;
-        left: 6.7%;
-        bottom: 37px;
-        font-size: 10px;
-        font-weight: 500;
-        text-align: center;
-    }
-    
-    .c_ics a {
-        color: #cdd0d4!important;
-        border-bottom: none;    
-    }
-    
-    .c_ics a:hover {
-        color: #200067!important;
-        transition: all 0.2s ease-in;
-    }
-    
-    /* 2. CSS календарной карточки c_card для экранов 960 - 1200  */ 
-    
-    @media (max-width: 1200px) {
-    
-         .h_month  {
-            width: 840px;
-            /*margin-left: 50px;*/
-        }
-    
-     
-        .c_card {
-            width: 840px;
-        }
-    
-        .c_about {
-            width: 45%;
-            left: 29%;
-        }
-        
-        .c_day {
-            left: 0%;
-            top: 18px;
-            font-size: 58px;
-        }
-    
-        .c_days {
-            left: 0%;
-            top: 18px;
-            font-size: 58px;
-        }
-        
-        .c_month {
-            padding: 5px 8px;
-            left: 4%;
-            top: 92px;
-            letter-spacing: 4px;
-        }
-            
-        .c_time {
-            left: 4%;
-            font-size: 18px;
-        }
-        
-        .c_type {
-            width: 45%;
-            left: 29%;
-        }
-        
-        .c_ticket {
-            padding: 12px 20px;
-        }
-        
-        .c_link {
-            left: 29%;
-        }
-        
-        .c_ics {
-            left: 5%;
-        }
-        
-    }
-    
-    
-    /* 3. CSS календарной карточки c_card для экранов 640 - 960  */
-    
-    @media (max-width: 960px) {
-    
-        .h_month  {
-            width: 530px;
-            /*margin-left: 35px;*/
-        }
-    
-        .c_card {
-            width: 530px;
-            min-height: 240px;
-        }
-        
-        .c_about {
-            padding-top: 54px;
-            padding-bottom: 90px;
-            width: 55%;
-            left: 40%;
-            font-size: 16px;
-        }
-        
-        .c_day {
-            left: 1%;
-            top: 8px;
-            width: 200px;
-            font-size: 50px;
-        }
-        
-        .c_days {
-            left: 1%;
-            top: 8px;
-            width: 200px;
-            font-size: 50px;
-        }
-    
-        .c_month {
-            padding: 5px 7px;
-            left: 4%;
-            top: 72px;
-            font-size: 16px;
-            letter-spacing: 4px;
-        }
-            
-        .c_time {
-            left: 4%;
-            font-size: 16px;
-            top: 112px;
-        }
-        
-        .c_type {
-            width: 60%;
-            left: 40%;
-            top: 23px;
-            font-size: 9px;
-        }
-        
-        .c_placetag {
-            display: none;
-        }
-        
-        .c_place {
-            top: unset;
-            bottom: 58px;
-            left: 40%;
-            width: 55%;
-            font-size: 9px;
-        }
-        .c_link {
-            top: unset;
-            bottom: 35px;
-            left: 40%;
-            font-size: 9px;
-        }
-        
-        .c_ics {
-            left: 70.4%;
-            width: 145px;
-            bottom: 32px;
-            font-size: 9px;
-            
-        }
-        
-        .c_ticket {
-            left: 5.7%;
-            bottom: 25px;
-            padding: 9px 24px;
-            font-size: 10px;
-        }
-        
-    }
-    
-    /* 4. CSS календарной карточки c_card для экранов 480 - 640  */
-    
-    
-    @media (max-width: 640px) {
-    
-        .h_month  {
-            width: 400px;
-            /*margin-left: 25px;*/
-        }
-    
-        .c_card {
-            width: 400px;
-            min-height: 210px;
-        }
-        
-        .c_about {
-            display: block;
-            padding-top: 45px;
-            padding-bottom: 76px;
-            width: 55%;
-            left: 40%;
-            font-size: 14px;
-        }
-        
-        .c_day {
-            left: 0%;
-            top: 8px;
-            width: 150px;
-            font-size: 40px;
-        }
-        
-        .c_days {
-            left: 0%;
-            top: 8px;
-            width: 150px;
-            font-size: 40px;
-        }
-        
-        .c_month {
-            padding: 5px 4px;
-            width: 100px;
-            left: 5%;
-            top: 62px;
-            font-size: 12px;
-            letter-spacing: 4px;
-        }
-            
-        .c_time {
-            left: 0%;
-            width: 151px;
-            font-size: 12px;
-            top: 106px;
-        }
-        
-        .c_type {
-            width: 60%;
-            left: 40%;
-            top: 23px;
-            font-size: 8px;
-        }
-        
-        .c_placetag {
-            display: none;
-        }
-        
-        .c_place {
-            top: unset;
-            bottom: 55px;
-            width: 148px;
-            left: 0%;
-            text-align: center;
-            font-size: 8px;
-        }
-        
-        .c_link {
-            top: unset;
-            bottom: 27px;
-            left: 40%;
-            font-size: 8px;
-        }
-        
-        .c_ics {
-            left: 64.5%;
-            width: 132px;
-            bottom: 27px;
-            font-size: 8px;
-            
-        }
-        
-        .c_ticket {
-            left: 5%;
-            bottom: 18px;
-            padding: 9px 23px;
-            font-size: 8px;
-        }
-        
-    }
-    
-    
-    /* 5. CSS календарной карточки c_card для экранов до 480 */
-    
-    @media (max-width: 480px) {
-        
-        .h_month  {
-            width: 256px;
-            /*margin-left: 40px auto;*/
-        }
-    
-        .c_card {
-            width: 256px;
-            /*margin: 40px auto;*/
-            min-height: 0px;
-        }    
-    
-        .c_about {
-            width: 216px;
-            padding-top: 97px;
-            padding-bottom: 101px;
-            left: 20px;
-            font-size: 12px;
-            /* font-weight: 500; */
-            line-height: unset;
-        }
-       
-        .c_day {
-            width: 50px;
-            left: 20px;
-            top: 29px;
-            font-size: 44px;
-            text-align: right;
-        }
-        
-        .c_days {
-            width: 50px;
-            left: 20px;
-            top: 29px;
-            font-size: 26px;
-            line-height: 30px;
-            text-align: center;
-        }
-        
-        .c_month {
-            border: none;
-            padding: 0px;
-            left: 96px;
-            top: 45px;
-            font-size: 14px;
-            text-align: left;
-        }
-        
-        .c_time {
-            left: 96px;
-            top: 62px;
-            font-size: 12px;
-            text-align: left;
-        }
-    
-        .c_type {
-            left: 20px;
-            top: 20px;
-            width: unset;
-            font-size: 8px;
-        }
-        
-        .c_placetag  {
-            display: none;
-        }
-        
-        .c_place {
-            left: 96px;
-            top: unset;
-            height: 24px;
-            bottom: 57px;
-            font-size: 8px;
-            text-align: left;
-        }
-        
-    
-        .c_ticket {
-            left: 96px;
-            bottom: 21px;
-            padding: 9px 32px;
-            font-size: 8px;
-        }
-    
-       
-       .c_link {
-            top: unset;
-            bottom: 71px;
-            left: 20px;
-            font-size: 8px;
-       }
-       
-        .c_ics {
-            left: 20px;
-            width: 71px;
-            bottom: 24px;
-            text-align: left;
-            font-size: 8px;
-            line-height: 1.4;
-       }
-    }  
-    
-    
-    </style>
-    
-    
+        left: 20px;
+        width: 71px;
+        bottom: 24px;
+        text-align: left;
+        font-size: 8px;
+        line-height: 1.4;
+   }
+}  
+
+
+</style>
+
