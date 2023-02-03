@@ -21,7 +21,7 @@ let currentPage = 0;    // нумерация страниц выдачи нач
         let r = await xhr.json(); // читаем ответ в формате JSON
         const result = r.calendar;
         const cardLimit = result.length; // сколько всего календарных карточек (т.е. строк в гугл-таблице)
-        const pageCount = Math.ceil(cardLimit / cardIncrease) - 1;  //номер последней страницы (нумерация страниц с нуля, поэтому при 22 карточках будет три страницы с номерами 0, 1 и 2 
+        const pageCount = Math.floor(cardLimit / cardIncrease) ;  //номер последней страницы (нумерация страниц с нуля, поэтому при 22 карточках будет три страницы с номерами 0, 1 и 2 
 
         addCards(currentPage, result, cardLimit, pageCount);    // выдаем первую страницу с картами и если карточек больше, показываем кнопку
         
