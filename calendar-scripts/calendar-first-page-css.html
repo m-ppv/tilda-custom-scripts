@@ -1,0 +1,377 @@
+<style>
+
+.mc_wrapper  {
+    margin: 15px 55px 20px 55px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px 50px;
+    font-family: 'GothamPro';
+
+}
+    
+.mc_card {
+    position: relative;
+    height: 480px;
+    width: 100%;
+    color: #200067;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 7px 4px rgba(255, 255, 255, 0.7);
+    text-align: left;
+}
+
+.mc_card:hover {
+    box-shadow: 0px 0px 15px 7px rgba(255, 255, 255, 0.7);
+    transition: all 0.2s ease-in;
+}
+
+.mcc0 {
+    color: #ffffff !important;
+    background-color: #200067 !important;
+    box-shadow: none !important; 
+}
+
+
+.mc_day {
+    position:absolute;
+    top: 25px;
+    left: 60px;
+    width: 200px;
+    text-align: center;
+    font-weight: 100;
+    font-size: 70px;
+}
+
+.mc_days {
+    position:absolute;
+    top: 25px;
+    left: 10px;
+    width: 300px;
+    text-align: center;
+    font-weight: 100;
+    font-size: 70px;
+}
+
+.mc_month {
+    position: absolute;
+    padding: 9px 8px;
+    border: 1px solid #200067;
+    width: 150px;
+    left: 75px;
+    top: 120px;
+    font-weight: 500;
+    font-size: 18px;
+    letter-spacing: 6px;
+    text-align: center;
+    vertical-align: middle;
+    text-transform: uppercase;
+}
+
+.mcm0 {
+    border: 1px solid #ffffff;
+}
+
+.mc_time {
+    position: absolute;
+    width: 200px;
+    left: 60px;
+    top: 186px;
+    font-size: 20px;
+    font-weight: 200;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+.mc_type {
+    position: absolute;
+    width: 250px;
+    left: 40px;
+    top: 288px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+.mc_about {
+    position: absolute;
+    width: 250px;
+    left: 40px;
+    top: 314px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.8;
+    letter-spacing: -0.3px;
+    text-transform: uppercase;
+}
+
+
+.mc_place {
+    position: absolute;
+    width: 250px;
+    left: 40px;
+    top: 422px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: -0.3px;
+    text-transform: uppercase;
+    line-height: 1.5;
+}
+
+
+
+@media (max-width: 1200px) {
+    .mc_wrapper  {
+        margin: 15px 50px 15px 50px;
+        grid-template-rows: 30px 400px;
+        column-gap: 30px;
+    }
+    
+    .mc_card {
+        height: 400px;
+    }
+    
+    
+    .mc_day {
+        top: 20px;
+        left: 55px;
+        width: 150px;
+        font-size: 60px;
+    }
+    
+    .mc_days {
+        top: 20px;
+        left: 5px;
+        width: 250px;
+        font-size: 60px;
+    }
+
+    .mc_month {
+        padding: 5px 4px;
+        border: 1px solid #200067;
+        width: 150px;
+        left: 50px;
+        top: 98px;
+        letter-spacing: 4px;
+    }
+    
+    .mc_time {
+        width: 150px;
+        top: 148px;
+        font-size: 18px;
+    }
+    
+    .mc_type {
+        left: 25px;
+        top: 237px;
+        font-size: 10px;
+    }
+    
+    .mc_about {
+        width: 200px;
+        left: 25px;
+        top: 260px;
+        font-size: 12px;
+    }
+    
+    
+    .mc_place {
+        width: 200px;
+        left: 25px;
+        top: 355px;
+        font-size: 10px;
+    }
+
+}
+
+@media (max-width: 960px) {
+    
+    .mc_wrapper  {
+        margin: 15px auto 20px auto;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+    
+    .mc_card {
+        height: 200px;
+        width: 530px;
+        margin: auto;
+    }
+
+    .mc_day {
+        top: 12px;
+        left: 30px;
+        width: 150px;
+        font-size: 50px;
+    }
+    
+    .mc_days {
+        top: 12px;
+        left: 5px;
+        width: 200px;
+        font-size: 50px;
+    }
+
+    .mc_month {
+        padding: 5px 0px;
+        border: 1px solid #200067;
+        width: 150px;
+        left: 30px;
+        top: 75px;
+        font-size: 16px;
+    }
+    
+    .mc_time {
+        width: 150px;
+        top: 143px;
+        left: 30px;
+        font-size: 16px;
+    }
+    
+    .mc_type {
+        left: 268px;
+        top: 27px;
+        font-size: 9px;
+    }
+    
+    .mc_about {
+        width: 220px;
+        left: 268px;
+        top: 64px;
+        font-size: 11px;
+    }
+    
+    
+    .mc_place {
+        width: 200px;
+        left: 268px;
+        top: 149px;
+        font-size: 10px;
+    }
+
+@media (max-width: 640px) {
+    
+    .mc_card {
+        height: 180px;
+        width: 400px;
+    }
+
+    .mc_day {
+        top: 12px;
+        left: 2px;
+        width: 150px;
+        font-size: 40px;
+    }
+    .mc_days {
+        top: 12px;
+        left: 2px;
+        width: 150px;
+        font-size: 40px;
+    }
+    
+    .mc_month {
+        padding: 5px 0px;
+        border: 1px solid #200067;
+        width: 110px;
+        left: 20px;
+        top: 66px;
+        font-size: 12px;
+    }
+    
+    .mc_time {
+        width: 110px;
+        top: 128px;
+        left: 20px;
+        font-size: 12px;
+    }
+    
+    .mc_type {
+        left: 200px;
+        width: 185px;
+        top: 26px;
+        font-size: 8px;
+    }
+    
+    .mc_about {
+        width: 185px;
+        left: 200px;
+        top: 50px;
+        font-size: 10px;
+    }
+    
+    
+    .mc_place {
+        width: 185px;
+        left: 200px;
+        top: 134px;
+        font-size: 9px;
+    }
+
+
+@media (max-width: 480px) {
+    
+    .mc_card {
+        height: 195px;
+        width: 256px;
+    }
+
+    .mc_day {
+        top: 28px;
+        left: 10px;
+        width: 70px;
+        font-size: 44px;
+    }
+    .mc_days {
+        top: 28px;
+        left: 5px;
+        width: 80px;
+        font-size: 26px;
+    }    
+    .mc_month {
+        padding: 5px 0px;
+        border: none;
+        width: 110px;
+        left: 96px;
+        top: 40px;
+        font-size: 14px;
+        text-align: left;
+    }
+    
+    .mcm0 {
+        border:none !important;
+    }
+    
+    .mc_time {
+        width: 110px;
+        top: 63px;
+        left: 96px;
+        font-size: 12px;
+        text-align: left;
+    }
+    
+    .mc_type {
+        left: 20px;
+        width: 225px;
+        top: 21px;
+        font-size: 8px;
+    }
+    
+    .mc_about {
+        width: 225px;
+        left: 20px;
+        top: 97px;
+        font-size: 10px;
+    }
+    
+    
+    .mc_place {
+        width: 225px;
+        left: 20px;
+        top: 164px;
+        font-size: 8px;
+    }
+
+
+
+}
+
+</style>
