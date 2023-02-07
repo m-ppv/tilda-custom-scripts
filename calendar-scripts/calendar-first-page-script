@@ -1,0 +1,64 @@
+			<script>
+
+(function () {
+
+    var app = "https://script.google.com/macros/s/AKfycbxGoRRJ6RUSgE4P7t6XCRvIODD_dLjCxlarg09M9hbhsBCqteYHbkqPZ-s_gwh8E3dh/exec";
+    var output = '';
+    var xhr = new XMLHttpRequest();
+    
+    var card_month = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
+
+
+    xhr.open('GET', app);
+    xhr.onreadystatechange = function() {
+     if (xhr.readyState !== 4) return;
+
+     if (xhr.status == 200) {
+        try {
+            var r = JSON.parse(xhr.responseText),
+               result = r["calendar"];
+               
+            output += '<div class="mc_wrapper">';   
+            
+            for (var i = 0; i < Math.min(3, result.length); i++){
+                  var obj = r["calendar"][i];
+                  var s_date = obj[0].split('-'); //в массив s_date (start date) записываются год, месяц и день начала мероприятия
+                  if (obj[2] != '')  { //если есть вторая дата
+                      var e_date = obj[2].split('-'); //в массив e_date (end date) записываются год, месяц и день конца мероприятия
+                  }
+                  if (obj[1] != '') {
+                      var s_time = obj[1]; //в переменную s_time (start time) записываются время начала мероприятия
+                  }
+                  if (obj[3] != '') {
+                      var e_time = obj[3]; //в переменную e_time (end time) записываются время конца мероприятия
+                  }
+                  
+                  output += '<a href="/calendar/#' + obj[0] + 'T' + obj[1] + '"> <div class="mc_card mcc' + i +'">';
+                  if ((obj[2] == '') && (obj[2] != obj[0])) {    
+                    output += '<div class="mc_day">' + s_date[2] + '</div>';  //если нет конечной дат или она совпадает с начальной (событие на один день) пишем одно число месяца
+                  } else output += '<div class="mc_days">' + s_date[2] + ' &ndash; ' + e_date[2] + '</div>'; //если есть вторая дата, пишем обе через тире
+                  output += '<div class="mc_month mcm' + i + '">' + card_month[s_date[1]-1]  + '</div>'; // месяц, диапазон месяцев, если случится, пока не придумал как писать
+                  if (obj[3] == '') {
+                      output += '<div class="mc_time">' + obj[1] + '</div>';
+                  }
+                  else output += '<div class="mc_time">' + obj[1] + ' &ndash; ' + obj[3] + '</div>'
+                  output += '<div class="mc_type">' + obj[5] + '</div>';
+                  output += '<div class="mc_about">' + obj[6] + '</div>'; 
+                  output += '<div class="mc_place">' + obj[7] + '</div>';
+                  output += '</div> </a>';
+            }
+            
+            output += '</div>';
+            
+        } catch(e)  {/*console.error(e, e.stack);*/}
+     } 
+     
+   document.getElementById('info').innerHTML = output;
+
+   }
+   xhr.send()
+})()
+
+</script>
+
+<div id="info"></div>
