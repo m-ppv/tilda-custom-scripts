@@ -1,4 +1,9 @@
+<!--Спиннер и замутнение экрана, пока карточки грузятся -->
+<div class="bckgr"> <div class="spinner" id="spinner"></div> </div>
+
+<!--Сюда скрипт выводит карточки-->
 <div id="calendar-new-events"></div>
+
 
 <script>
 'use strict';
@@ -181,6 +186,12 @@ function filterencode(str) { // избавляет строку от тегов 
                 c_card.scrollIntoView({ behavior: "smooth" }); // если якорь из url совпадает с id карточки, скроллим до этой карточки
             }
         }
+        
+        // Убираем спиннер и помутнение экрана, когда загрузятся календарные карточки 
+        const bckgr = document.querySelector(".bckgr");
+        bckgr.style.display = "none";
+        
+
    } else return;
 })()
 
