@@ -9,6 +9,9 @@ const HEAD_MONTH = ["январь", "февраль", "март", "апрель"
 let month_num;
 const output = document.getElementById('calendar-soon-events');
 
+const mcWrapper = document.createElement('div');
+mcWrapper.setAttribute('class', 'mc_wrapper');
+output.appendChild(mcWrapper);
 
 (async () => {
     const APP = "https://script.google.com/macros/s/AKfycbxGoRRJ6RUSgE4P7t6XCRvIODD_dLjCxlarg09M9hbhsBCqteYHbkqPZ-s_gwh8E3dh/exec";
@@ -19,130 +22,71 @@ const output = document.getElementById('calendar-soon-events');
         const result = r.calendar;
         for (let i = 0; i < Math.min(3, result.length); i++) {
         createCalendarCard(i, result[i]);
-  }
+        }
     } else return;
 })()
 
 
-function appendElement(parent, childName, content) {     //функция добавления любого элемента на карточку, кроме ссылок 
-    var child = childName;
-    child = document.createElement('div');
-    child.setAttribute('class', childName);
-    child.textContent = content;
-    parent.appendChild(child);
-    return child;
+function makeTextElement() {     //функция добавления текстового элемента на карточку, кроме ссылок 
+    this.element = document.createElement('div');
+    this.element.setAttribute('class', this.cssclass);
+    this.element.textContent = this.content;
+    this.parent.appendChild(this.element);
 }
 
-function createCalendarCard(i,jsoncalendarevent) {   //функция создания календарной карточки
-    let obj = jsoncalendarevent;
-    let s_date, e_date, s_time, e_time;   //даты начала и конца и времена начала и конца мероприятия
-    s_date = obj[0].split('-'); //в массив s_date (start date) записываются год, месяц и день начала мероприятия
-    if (obj[2] != '') { //если есть вторая дата
-        e_date = obj[2].split('-'); //в массив e_date (end date) записываются год, месяц и день конца мероприятия
-    }
-    if (obj[1] != '') {
-        s_time = obj[1]; //в переменную s_time (start time) записываются время начала мероприятия
-    }
-    if (obj[3] != '') {
-        e_time = obj[3]; //в переменную e_time (end time) записываются время конца мероприятия
-    }
+function createCalendarCard(i, obj) {
+    const s_date = obj[0].split('-'); //в массив s_date (start date) записываются год, месяц и день начала мероприятия
+    const e_date = (obj[2]) ? obj[2].split('-') : null; //если obj[2] существует, в e_date (end date) пишем год, месяц и день конца меропр.
+    const s_time = (obj[1]) ? obj[1] : null; //в переменную s_time (start time) записываются время начала мероприятия
+    const e_time = (obj[3]) ? obj[3] : null; //в переменную s_time (start time) записываются время начала мероприятия
 
-    if (s_date[1] != month_num) { //если номер месяца не совпадает с номером месяца предыдущего события, добавляем название месяца и года перед карточкой
-        // let hMonth;
+ /*    if (s_date[1] != month_num) { //если номер месяца не совпадает с номером месяца предыдущего события, добавляем название месяца и года перед карточкой
         month_num = s_date[1];
-        appendElement(output, 'h_month', null, HEAD_MONTH[s_date[1] - 1] + ' ' + s_date[0]);
+        const h_month = { parent: mcWrapper, childName: 'h_month', content: HEAD_MONTH[s_date[1] - 1] + ' ' + s_date[0] };
+        appendElement(h_month);
     }
+    */
     
-    const c_card = appendElement(output, 'c_card', null, null);
-    appendElement(c_card, 'c_about', null, obj[6].replace(/&nbsp;|#nbsp;/gi, '\u00A0'));  // заменяем неразрывные пробелы в описании
-    if ((obj[2] == '') && (obj[2] != obj[0])) {
-        appendElement(c_card, 'c_day', null, s_date[2]);  // пишем дату
-    } else {
-        appendElement(c_card, 'c_days', null, s_date[2] + ' – ' + e_date[2]);  // или диапазон дат
-    }
-    appendElement(c_card, 'c_month', null, CARD_MONTH[s_date[1] - 1]); // название месяца из массива, 1 вычитается потому, что массив начинается с 0. Диапазон месяцев пока не придумал как писать
-    if (obj[3] == '') {
-        appendElement(c_card, 'c_time', null, obj[1]);  // пишем время начала
-    } else {
-        appendElement(c_card, 'c_time', null, obj[1] + ' – ' + obj[3]); // или время начала - время конца
-    }
-    appendElement(c_card, 'c_type', null, obj[5]);  // тип мероприятия
-    appendElement(c_card, 'c_placetag', null, 'Место');
-    appendElement(c_card, 'c_place', null, obj[7].replace(/&nbsp;|#nbsp;/gi, '\u00A0'));  // место проведения (заменяем неразрывные пробелы)
-    
+    const a_link = document.createElement('a');
+    a_link.href = '/calendar/#' + obj[0] + 'T' + obj[1];
+    mcWrapper.appendChild(a_link);
 
-    if (obj[8] != '') { // если есть ссылка на описание мероприятия
-        let c_link = document.createElement('div');
-        let a_link = document.createElement('a');
-        let a_linkText = document.createTextNode('Описание');
-        a_link.target = '_blank';
-        a_link.href = obj[8];
-        a_link.appendChild(a_linkText);
-        c_link.appendChild(a_link);
-        c_link.setAttribute('class', 'c_link');
-        c_card.appendChild(c_link);
+    const mc_card = document.createElement('div');
+    mc_card.setAttribute('class', 'mc_card mcc' + i);
+    a_link.appendChild(mc_card);
+    
+    //если нет конечной дат или она совпадает с начальной (событие на один день) пишем одно число месяца, иначе диапазон
+    const mcElement = {parent: mc_card, write: makeTextElement}; 
+    if ((!obj[2]) || (obj[2] != obj[0])) {
+       mcElement.cssclass = 'mc_day';
+       mcElement.content = s_date[2]; // одна дата
+    } else {
+       mcElement.cssclass = 'mc_days';
+       mcElement.content = s_date[2] + ' – ' + e_date[2]; // диапазон дат 
     }
+    mcElement.write();
+
+    mcElement.cssclass = 'mc_month mcm' + i; 
+    mcElement.content = CARD_MONTH[s_date[1] - 1];
+    mcElement.write();
+    
+    mcElement.cssclass = 'mc_time';
+    (!obj[3]) ? mcElement.content = obj[1] : mcElement.content = obj[1] + ' – ' + obj[3];
+    mcElement.write();
+
+    mcElement.cssclass = 'mc_type'
+    mcElement.content = obj[5];
+    mcElement.write();
+
+    mcElement.cssclass = 'mc_about';
+    mcElement.content = obj[6].replace(/&nbsp;|#nbsp;/gi, '\u00A0');
+    mcElement.write();
+
+    mcElement.cssclass = 'mc_place';
+    mcElement.content = obj[7].replace(/&nbsp;|#nbsp;/gi, '\u00A0');
+    mcElement.write();
+
 }
 
-/*
-(function () {
-
-    var app = "https://script.google.com/macros/s/AKfycbxGoRRJ6RUSgE4P7t6XCRvIODD_dLjCxlarg09M9hbhsBCqteYHbkqPZ-s_gwh8E3dh/exec";
-    var output = '';
-    var xhr = new XMLHttpRequest();
-    
-    var card_month = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
-
-
-    xhr.open('GET', app);
-    xhr.onreadystatechange = function() {
-     if (xhr.readyState !== 4) return;
-
-     if (xhr.status == 200) {
-        try {
-            var r = JSON.parse(xhr.responseText),
-               result = r["calendar"];
-               
-            output += '<div class="mc_wrapper">';   
-            
-            for (var i = 0; i < Math.min(3, result.length); i++){
-                  var obj = r["calendar"][i];
-                  var s_date = obj[0].split('-'); //в массив s_date (start date) записываются год, месяц и день начала мероприятия
-                  if (obj[2] != '')  { //если есть вторая дата
-                      var e_date = obj[2].split('-'); //в массив e_date (end date) записываются год, месяц и день конца мероприятия
-                  }
-                  if (obj[1] != '') {
-                      var s_time = obj[1]; //в переменную s_time (start time) записываются время начала мероприятия
-                  }
-                  if (obj[3] != '') {
-                      var e_time = obj[3]; //в переменную e_time (end time) записываются время конца мероприятия
-                  }
-                  
-                  output += '<a href="/calendar/#' + obj[0] + 'T' + obj[1] + '"> <div class="mc_card mcc' + i +'">';
-                  if ((obj[2] == '') && (obj[2] != obj[0])) {    
-                    output += '<div class="mc_day">' + s_date[2] + '</div>';  //если нет конечной дат или она совпадает с начальной (событие на один день) пишем одно число месяца
-                  } else output += '<div class="mc_days">' + s_date[2] + ' &ndash; ' + e_date[2] + '</div>'; //если есть вторая дата, пишем обе через тире
-                  output += '<div class="mc_month mcm' + i + '">' + card_month[s_date[1]-1]  + '</div>'; // месяц, диапазон месяцев, если случится, пока не придумал как писать
-                  if (obj[3] == '') {
-                      output += '<div class="mc_time">' + obj[1] + '</div>';
-                  }
-                  else output += '<div class="mc_time">' + obj[1] + ' &ndash; ' + obj[3] + '</div>'
-                  output += '<div class="mc_type">' + obj[5] + '</div>';
-                  output += '<div class="mc_about">' + obj[6] + '</div>'; 
-                  output += '<div class="mc_place">' + obj[7] + '</div>';
-                  output += '</div> </a>';
-            }
-            
-            output += '</div>';
-            
-        } catch(e)  {console.error(e, e.stack);}
-     } 
-     
-   document.getElementById('info').innerHTML = output;
-
-   }
-   xhr.send()
-})()
-*/
 </script>
 
