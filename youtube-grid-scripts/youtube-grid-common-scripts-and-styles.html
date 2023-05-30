@@ -1,31 +1,66 @@
 <!-- Этот блок содержит скрипты и стили, необходимые для работы блока 
 youtube-grid-display:
-1. Скрипты youtube-grid-css-functions
-2. Стили youtube-grid-css-gt
-3. Стили youtube-grid-css-t223
+1. Скрипты youtube-grid-css-functions v 2.0
+2. Стили youtube-grid-css-gt v 2.0
+3. Стили youtube-grid-css-t223 v 1.0
 
-
-<!-- скрипты youtube-grid-css-functions. Вместе со стилями youtube-grid-css-t223 и
-youtube-grid-css-gt нужен для работы блока youtube-grid-display.
+скрипты youtube-grid-css-functions v 2.0. Вместе со стилями youtube-grid-css-t223 и
+youtube-grid-css-gt v 2.0 нужен для работы блока youtube-grid-display v 2.0.
 Данные скрипты могут присутствовать на странице только один раз, независимо от 
 количества блоков youtube-grid-display
 
-Функция displayVideoGrid делает html из обложек роликов с переданными в массиве 
+Функция displayVideoGrid 2.0 делает html из обложек роликов с переданными в массиве 
 youtube id и своими подписями. Остальные функции взяты из Тильды и нужны для 
 работы скрипта, подменяющего картинку обложки с кнопкой на iframe и запускающего 
 просмотр ролика. Это ускоряет загрузку страницы по сравнению с embedding многих
-плееров в iframe (каждый плеер грузит полмегабайта данных) -->
+плееров в iframe (каждый плеер грузит полмегабайта данных) 
+
+30.05.2023 скрипт переписан, добавлен функционал кнопки "показать больше", механика работы взята
+из календарных скриптов calendar-past-events 
+
+-->
 
 <script type="text/javascript">
 
-function displayVideoGrid(textArray, gridId) {
+const cardIncrease = 8;  //сколько карточек показывается на одной странице выдачи 
+let currentPage = 0;    // нумерация страниц выдачи начинается с нуля
 
-    var videoGrid = document.getElementById(gridId);
+function displayVideoGrid(textArray, gridId, buttonId) {
+    // const videoGrid = document.getElementById(gridId);
+    const loadMoreButton = document.getElementById(buttonId);
+    const cardLimit = textArray.length; // сколько всего карточек 
+    const pageCount = Math.floor(cardLimit / cardIncrease) ;  //номер последней страницы (нумерация страниц с нуля, поэтому при 22 карточках и cardIncrease=10 будет три страницы с номерами 0, 1 и 2 
     
-    for (var i = 0; i < textArray.length; i++) {
-        
-        var ytText = textArray[i];
-        
+    addCards(currentPage, textArray, cardLimit, pageCount, gridId, loadMoreButton); // функция, выводящая блок с карточками числом cardIncrease
+
+    loadMoreButton.addEventListener("click", () => {        // ловим нажатие на кнопку и показываем следюущую страницу с карточками
+        addCards(currentPage + 1, textArray, cardLimit, pageCount, gridId, loadMoreButton); // если кнопку нажали, выводим еще раз блок с карточками
+        window.scrollBy(0,1); // карточки после нажатия на кнопку не показываются, если не проскролиить экран. Вот он, скролл на один пиксель. 
+    });
+}
+
+
+function addCards(pageIndex, textArray, cardLimit, pageCount, gridId, loadMoreButton) {  // выводим очередную страницу с карточками (нумерация с нуля!)
+  const videoGrid = document.getElementById(gridId);
+  currentPage = pageIndex;
+  handleButtonStatus(pageCount, currentPage, loadMoreButton);
+  const startRange = pageIndex * cardIncrease;
+  const endRange = ((pageIndex + 1) * cardIncrease > cardLimit) ? cardLimit : (pageIndex + 1) * cardIncrease;
+  for (let i = startRange; i < endRange; i++) {
+    createVideoCard(textArray[i], videoGrid);
+  }
+}
+
+function handleButtonStatus(pageCount, currentPage, loadMoreButton) {       // скрываем кнопку на последней странице с помощью CSS
+  if (pageCount === currentPage) {
+    loadMoreButton.classList.add("disabled");
+    loadMoreButton.setAttribute("disabled", true);
+  }
+}
+
+
+function createVideoCard(ytText, videoGrid) { // Функция создания карточки с обложкой ролика youtube и рисования на нем точно такой же кнопки, как на youtube
+
         var t223Col = document.createElement('div');
         var t223VideoThumbnail = document.createElement('div');
         var tButton = document.createElement('button');
@@ -76,7 +111,7 @@ function displayVideoGrid(textArray, gridId) {
         gtText.appendChild(gtDate);
         gtText.appendChild(gtTitle);
         gtText.appendChild(gtType);
-    }
+
 }
 
     
@@ -135,38 +170,71 @@ function t223_setYouTubeIframeHeight(rec) {
     })
 }
 
-		
-		
+        
+        
 
-		function t223_setHeight(rec) {
-			var videoLazy = rec.querySelectorAll('.t-video-lazyload');
-			if (!videoLazy.length) return;
-			Array.prototype.forEach.call(videoLazy, function(video) {
-				var videoIframe = video.querySelector('iframe');
-				var videoWidth = parseInt(window.getComputedStyle(video).width, 10);
-				var computedHeight = videoWidth / (16 / 9);
-				video.style.height = computedHeight + 'px';
-				if (videoIframe) {
-					videoIframe.height = computedHeight;
-				}
-				setTimeout(function() {
-					var videoIframe = video.querySelector('iframe');
-					if (videoIframe) {
-						videoIframe.height = computedHeight;
-					}
-				}, 300);
-			});
-		};
-	</script>
+        function t223_setHeight(rec) {
+            var videoLazy = rec.querySelectorAll('.t-video-lazyload');
+            if (!videoLazy.length) return;
+            Array.prototype.forEach.call(videoLazy, function(video) {
+                var videoIframe = video.querySelector('iframe');
+                var videoWidth = parseInt(window.getComputedStyle(video).width, 10);
+                var computedHeight = videoWidth / (16 / 9);
+                video.style.height = computedHeight + 'px';
+                if (videoIframe) {
+                    videoIframe.height = computedHeight;
+                }
+                setTimeout(function() {
+                    var videoIframe = video.querySelector('iframe');
+                    if (videoIframe) {
+                        videoIframe.height = computedHeight;
+                    }
+                }, 300);
+            });
+        };
+    </script>
 
-<!-- Стили youtube-grid-css-gt. Вместе со стилями youtube-grid-css-t223 и
-youtube-grid-functions нужны для работы блока youtube-grid-display.
+<!-- Стили youtube-grid-css-gt v 2.0. Вместе со стилями youtube-grid-css-t223 и
+youtube-grid-functions v. 2.0 нужны для работы блока youtube-grid-display.
 
 Здесь содержатся заимствованный из Тильды и модифицированный для display:grid стиль 
 t-container (теперь он gt-container) а также модифицированные стили 
-t-col и t-col_6 (gt-col и gt-col_6) и стили для подписей под видео -->
+t-col и t-col_6 (gt-col и gt-col_6), стили для подписей под видео и стили кнопки "показать больше"-->
 
 <style>
+
+/*Кнопка "Загрузить еще"*/
+
+.load-more {
+    display:block;
+    width: fit-content;
+    cursor: pointer;
+    margin: 45px auto;
+    transition: all 200ms ease-in-out;
+    font-size: 14px;
+    line-height: 30px;
+    padding: 10px 40px;
+    color: #200067;
+    border: 1px solid #200067;
+    font-family: GothamPro;
+    font-weight: 500;
+    text-align: center;
+    text-transform: uppercase;
+    background-color: transparent;
+}
+
+.load-more:not([disabled]):hover {
+  box-shadow: 0 1px 9px rgba(0, 0, 0, 0.2);
+  color: #cdd0d4;
+  background-color: #200067;
+}
+
+.load-more[disabled] {
+    display: none !important;
+}
+
+/*Стили для грида и карточек*/
+
 
 .gt-container {
     margin-left: auto;
@@ -269,10 +337,10 @@ t-col и t-col_6 (gt-col и gt-col_6) и стили для подписей по
 
 </style>
 
-<!-- Стили youtube-grid-css-t223 Вместе со стилями youtube-grid-css-gt и скриптами
-youtube-grid-functions нужны  для работы блока youtube-grid-display.
+<!-- Стили youtube-grid-css-t223 v 1.0 Вместе со стилями youtube-grid-css-gt v 2.0 и скриптами
+youtube-grid-functions v 2.0 нужны  для работы блока youtube-grid-display v 2.0.
 
-Здесь содержатсяч содержит взятые из Тильды стили для картинки с обложкой и кнопкой 
+Здесь содержатся взятые из Тильды стили для картинки с обложкой и кнопкой 
 ролика youtube, а также возникающего на его месте после клика iframe (см. скрипт). 
 Стили взяты как есть, НЕ МОДИФИЦИРОВАЛИСЬ.  -->
 
@@ -364,4 +432,4 @@ youtube-grid-functions нужны  для работы блока youtube-grid-d
 }
 
 </style>
-	
+    
