@@ -1,0 +1,217 @@
+<div id="logos-1" class="logopanel"></div>
+
+
+<script>
+
+// This script and the CSS below it are intended to display a tile of logotypes that reveal themselves 
+// from shadows on mouse hover or finger tap on mobile screens
+// The shadow lootypes should strictly match the full-color logos in size. 
+
+'use strict';
+
+// Logo names: full-color logo, shadow (white) logo, logo scale, alt name
+
+const logoArr = [
+["rossotrudnichestvo.svg", "rossotrudnichestvo_w.svg", "80%", "Россотрудничество"],
+["mincultrf.svg", "mincultrf_w.svg","100%", "Министерство культуры РФ"],
+["mincultnn.svg", "mincultnn_w.svg","100%", "Министерство культуры РФ"],
+["mincultirk.svg", "mincultirk_w.svg","70%", "Министерство культуры Иркутской области"],
+["micultsakhalin.png", "micultsakhalin_w.png","100%", "Министерство культуры Сахалинской области"],
+["depculttymen.svg", "depculttymen_w.svg", "100%", "Департамент культуры Тюменской области"],
+["comcultspb.svg", "comcultspb_w.svg", "70%", "Комитет по культуре Санкт-Петербурга"],
+["micultchel.png", "micultchel_w.png", "100%", "Министерство культуры Челябинской области"],
+["depcultvolg.png", "depcultvolg_w.png", "100%", "Департамент культуры Волгоградской области"],
+["comcultvolgograd.svg", "comcultvolgograd_w.svg","80%", "Комитет по культуре администрации Волгограда"],
+["govnn.svg", "govnn_w.svg","100%", "Правительство Нижегородской области"],
+["kidfilarmchel.svg", "kidfilarmchel_w.svg", "90%", "Детская филармония Челябинской области"],
+["estradeacad.png", "estradeacad_w.png", "100%", "Академия Эстрады Сахалинской области"],
+["mgik.png", "mgik_w.png", "80%", "Московский государственный институт культуры"],
+["aguteens.png", "aguteens_w.png", "80%", "Aguteens"],
+["sgik.png", "sgik_w.png", "100%", "Самарский государственный институт культуры"],
+["butmanclub.png", "butmanclub_w.png", "100%", "Джаз-клуб Игоря Бутмана"],
+["kozlovclub.svg", "kozlovclub_w.svg", "100%", "Джаз-клуб Алексея Козлова"],
+["yarcollege.png", "yarcollege_w.png", "100%", "Ярославский колледж культуры"],
+["maximum.png", "maximum_w.png", "90%", "Центр творчества «Максимум» (Тюмень)"],
+["volgogradconserv.png", "volgogradconserv_w.png", "90%", "Волгоградская консерватория"],
+["bigstage.svg", "bigstage_w.svg", "100%", "Фестиваль «Большая сцена»"],
+["okcuvao.png", "okcuvao_w.png", "100%", "Объединение культурных центров ЮВАО"],
+];
+
+// Directory where logos are stored
+const logoPath = 'https://edu.muscult.ru/img/logo/';
+
+const logoOutput = document.getElementById('logos-1');
+
+const logoWrapper = document.createElement('div');
+logoWrapper.setAttribute('class', 'logo_wrpr');
+logoOutput.appendChild(logoWrapper);
+
+for (let i = 0; i < logoArr.length; i++) {
+    
+    const logoContainer = document.createElement('div');
+    logoContainer.setAttribute('class', 'logo_container');
+    logoWrapper.appendChild(logoContainer);
+    
+    const logoType_w = document.createElement('div');
+    logoType_w.setAttribute('class', 'logo_white');
+    logoType_w.setAttribute('style', 'width: ' + logoArr[i][2]);
+    logoContainer.appendChild(logoType_w);
+    
+    const logoImg_w = document.createElement('img');
+    logoImg_w.setAttribute('src', logoPath + logoArr[i][1] );
+    logoImg_w.setAttribute('loading', 'lazy');
+    logoImg_w.setAttribute('alt', logoArr[i][3]);
+    logoType_w.appendChild(logoImg_w);        
+    
+    const logoType = document.createElement('div');
+    logoType.setAttribute('class', 'logo');
+    logoType.setAttribute('style', 'width: ' + logoArr[i][2]);
+    logoContainer.appendChild(logoType);
+    
+    const logoImg = document.createElement('img');
+    logoImg.setAttribute('src', 'https://edu.muscult.ru/img/logo/'+ logoArr[i][0] );
+    logoImg.setAttribute('loading', 'lazy');
+    logoImg.setAttribute('alt', logoArr[i][2]);
+    logoType.appendChild(logoImg);
+
+}
+
+</script>
+
+
+<style>
+
+.logopanel {
+        width: 1000px;
+        margin: auto auto auto auto;
+    }
+ 
+
+.logo_wrpr  {
+    margin: 15px 0px 20px 0px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px 45px;
+}
+
+
+.logo_container {
+    display: grid;
+    margin: auto;
+    width: 200px;
+}
+
+
+.logo {
+    /*display: none;*/
+    margin: auto;
+    grid-row: 1;
+    grid-column: 1;
+    width: 100%;
+    opacity: 0;
+}
+
+.logo img {
+    max-width: 100%;
+    display: block;
+}
+
+.logo_white {
+    display: block;
+    margin: auto;
+    grid-row: 1;
+    grid-column: 1;
+    width: 100%;
+}
+
+.logo_white img {
+    max-width: 100%;
+    display: block;
+}
+
+.logo_white:hover + .logo {
+    opacity: 0;
+    transition: all .2s ease-in-out;
+}
+
+.logo:hover {
+    opacity: 1;
+    transition: all .2s ease-in-out;
+}
+
+/* Media query for screen width less than 1200px */
+@media (max-width: 1199px) {
+
+    .logopanel {
+            width: 960px;
+    }    
+
+    .logo_wrpr  {
+        gap: 20px 30px;
+    }
+    
+    .logo_container {
+        width: 200px;
+    }
+    
+    .logo {
+        width: 100%;
+    }
+    
+    .logo_white {
+        width: 100%;
+    }
+
+}
+
+/* Media query for screen width less than 960px */
+@media (max-width: 959px) {
+   
+    .logopanel {
+        width: 640px;
+    }    
+
+    .logo_wrpr  {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    
+}
+/* Media query for screen width less than 640px */
+@media (max-width: 639px) {
+    
+    .logopanel {
+        width: 480px;
+    }  
+    
+    .logo_wrpr  {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+}
+/* Media query for screen width less than 640px */
+@media (max-width: 479px) {
+    
+    .logopanel {
+            width: 100%;
+    }    
+
+    .logo_wrpr  {
+        gap: 12px 20px;
+    }
+    
+    .logo_container {
+        width: 150px;
+    }
+    
+    .logo {
+        width: 100%;
+    }
+    
+    .logo_white {
+        width: 100%;
+    }
+
+}
+</style>
+
