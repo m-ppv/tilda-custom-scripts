@@ -1,0 +1,27 @@
+<!-- This script modifies the behavior of the BF905 popup with messenger buttons: it ads ease-in animation for the button 
+and opens the popuf after 35 seconds after loading the page. Don't forget to change the block ID for new implementations
+(c) @m_ppv (telegram) -->
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var popupTrigger = document.querySelector('#rec907453726 .t825__btn button');
+      
+      if (popupTrigger) {
+        // Initially hide the button by setting its opacity to 0 and defining a transition effect
+        popupTrigger.style.opacity = 0;
+        popupTrigger.style.transition = 'opacity 1s ease-in';
+    
+        // After 5 seconds, fade the button in by setting its opacity to 1
+        setTimeout(function() {
+          popupTrigger.style.opacity = 1;
+        }, 5000);
+    
+        // After 35 seconds, simulate a click on the button to open the popup
+        setTimeout(function() {
+          popupTrigger.click();
+        }, 35000);
+      }
+    });
+    
+</script>
