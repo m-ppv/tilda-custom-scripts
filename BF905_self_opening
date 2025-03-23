@@ -4,8 +4,8 @@ and opens the popup after 35 seconds after loading the page, but only if it isn'
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    var popupTrigger = document.querySelector('#rec907453726 .t825__btn button');
-    var popupContainer = document.querySelector('#rec907453726 .t825__popup');
+    var popupTrigger = document.querySelector('#rec908322112 .t825__btn button');
+    var popupContainer = document.querySelector('#rec908322112 .t825__popup');
     
     if (popupTrigger) {
       // Initially hide the button by setting its opacity to 0 and defining a transition effect
@@ -63,5 +63,12 @@ and opens the popup after 35 seconds after loading the page, but only if it isn'
             padding-bottom: 0px;
             }
             
+        .t825__mobile-close {
+            padding: 15px;
+            }
+            
+        .t825__mobile-icon-close {
+            padding: 0px;
+            }
     }
 </style>
