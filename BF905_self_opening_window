@@ -1,11 +1,19 @@
-<!-- This script modifies the behavior of the BF905 popup with messenger buttons: it adds ease-in animation for the button 
-and opens the popup after 35 seconds after loading the page, but only if it isn't already open.
+<!-- This script modifies the BF905 popup behavior:
+     • It adds an ease‑in animation for the popup trigger button.
+     • It automatically opens the popup after 35 seconds if it hasn't been closed.
+     • If the user closes the popup (via either the mobile or desktop close button),
+       a session flag is set so that the popup will not be shown again during this session.
 (c) @m_ppv (telegram) -->
-
 <script>
   document.addEventListener('DOMContentLoaded', function() {
+    // If the popup was closed in this session, do not run the popup script.
+    if (sessionStorage.getItem('popupClosed')) {
+      return;
+    }
+    
     var popupTrigger = document.querySelector('#rec908322112 .t825__btn button');
     var popupContainer = document.querySelector('#rec908322112 .t825__popup');
+    var autoOpenTimeout;
     
     if (popupTrigger) {
       // Initially hide the button by setting its opacity to 0 and defining a transition effect
@@ -17,16 +25,35 @@ and opens the popup after 35 seconds after loading the page, but only if it isn'
         popupTrigger.style.opacity = 1;
       }, 5000);
   
-      // After 35 seconds, simulate a click on the button to open the popup
-      // Only perform the click if the popup container is not already visible (i.e. its display is "none")
-      setTimeout(function() {
+      // After 35 seconds, simulate a click on the button to open the popup,
+      // only if the popup container is not already visible (display is "none")
+      autoOpenTimeout = setTimeout(function() {
         if (popupContainer && window.getComputedStyle(popupContainer).display === "none") {
           popupTrigger.click();
         }
       }, 35000);
     }
+    
+    // Select both mobile and desktop close buttons
+    var closeButtons = document.querySelectorAll('#rec908322112 .t825__popup .t825__mobile-close, #rec908322112 .t825 .t825__icon-close');
+    if (closeButtons) {
+      closeButtons.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          // Set a session flag so the popup will not show again in this session
+          sessionStorage.setItem('popupClosed', 'true');
+          // Cancel the auto-open timeout if it hasn't already run
+          if (autoOpenTimeout) {
+            clearTimeout(autoOpenTimeout);
+          }
+        });
+      });
+    }
   });
 </script>
+
+
+
+
 
 <!-- styling for the mobile version not to look ugly-->
 
