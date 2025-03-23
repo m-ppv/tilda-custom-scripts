@@ -27,3 +27,41 @@ and opens the popup after 35 seconds after loading the page, but only if it isn'
     }
   });
 </script>
+
+<!-- styling for the mobile version not to look ugly-->
+
+<style>
+    @media screen and (max-width: 960px) {
+        
+        .t825__popup-container {
+            margin: 0;
+            top: initial;
+            left: initial;
+            bottom: 10px;
+            right: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 20px 0 rgba(0, 0, 0, .4);
+            background: #fff;
+            position: fixed;
+            z-index: 1;
+            cursor: default;
+            min-height: 0%;
+            max-width: 300px;
+            }
+            
+        .t825__mobile-top-panel {
+            visibility: visible;
+            width: 300px;
+            height: 50px;
+            background: #490505;
+            position: fixed;
+            display: table;
+            } 
+            
+        .t825__wrapper {
+            padding-top: 60px;
+            padding-bottom: 0px;
+            }
+            
+    }
+</style>
